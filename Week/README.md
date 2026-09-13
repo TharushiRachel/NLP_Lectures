@@ -18,4 +18,5 @@ This folder contains all quiz questions and answers from the NLP assessment sess
 | `07_CFG_Sentences_and_Derivations.md` | 3 structural sentences + 1 senseless sentence |
 | `08_Morphology_Stems_and_Morphemes.md` | Stems, derivational & inflectional morphemes |
 | `09_Exercise_3_1_Preprocessing.md` | Exercise 3.1 – per-sentence preprocessing |
+| `10_Bag_of_Words_Exercise.md` | Bag of Words exercise (S1/S2 vectors) |
 | `ALL_ANSWERS.md` | Combined document (everything in one file) |
