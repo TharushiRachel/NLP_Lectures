@@ -612,23 +612,22 @@ Preprocess the above text. Write down which pre-processing techniques are requir
 
 ## Question
 
-**S1:** “The cat sat on the hat”  
-**S2:** “The dog ate the cat and the hat”
+| Sentence | Text |
+|----------|------|
+| S1 | The cat sat on the hat |
+| S2 | The dog ate the cat and the hat |
 
-Use the Bag-of-Words model to represent the sentences as an unordered set of words.  
-Disregard grammar and word order but consider word frequency.
+Use the Bag-of-Words model. Disregard grammar and word order but consider **word frequency**.
 
 ---
 
-## Lecture method (from slides)
+## Lecture steps
 
-BoW typically involves these steps:
-
-1. **Tokenization** – split text into words/tokens (may remove stop words and punctuation)
-2. **Vocabulary creation** – collect all unique words; assign each a unique index
-3. **Vectorization** – represent each sentence as a vector of length = vocabulary size; each value = **word frequency**
-
-*(Lecture example style: case is normalized so `The` / `the` count as the same word.)*
+| Step | What to do |
+|------|------------|
+| 1. Tokenization | Split text into words |
+| 2. Vocabulary creation | Collect unique words; assign each an index |
+| 3. Vectorization | Count frequency of each vocab word in each sentence |
 
 ---
 
@@ -639,67 +638,129 @@ BoW typically involves these steps:
 | S1 | the, cat, sat, on, the, hat |
 | S2 | the, dog, ate, the, cat, and, the, hat |
 
-*(Lowercased; no punctuation to remove; stop words kept so frequency of `the` is visible, matching the lecture worked example.)*
-
 ---
 
-## Step 2: Vocabulary creation
-
-Unique words in order of first appearance across the corpus:
-
-\[
-V = [\text{the},\ \text{cat},\ \text{sat},\ \text{on},\ \text{hat},\ \text{dog},\ \text{ate},\ \text{and}]
-\]
-
-**Vocabulary size** \( |V| = 8 \)
+## Step 2: Vocabulary
 
 | Index | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
 |-------|---|---|---|---|---|---|---|---|
 | Word | the | cat | sat | on | hat | dog | ate | and |
 
----
-
-## Step 3: Vectorization (word frequency)
-
-Count how many times each vocabulary word appears in each sentence.
-
-### S1: “the cat sat on the hat”
-
-| the | cat | sat | on | hat | dog | ate | and |
-|-----|-----|-----|----|-----|-----|-----|-----|
-| 2 | 1 | 1 | 1 | 1 | 0 | 0 | 0 |
-
-\[
-\text{S1} = [2,\ 1,\ 1,\ 1,\ 1,\ 0,\ 0,\ 0]
-\]
-
-### S2: “the dog ate the cat and the hat”
-
-| the | cat | sat | on | hat | dog | ate | and |
-|-----|-----|-----|----|-----|-----|-----|-----|
-| 3 | 1 | 0 | 0 | 1 | 1 | 1 | 1 |
-
-\[
-\text{S2} = [3,\ 1,\ 0,\ 0,\ 1,\ 1,\ 1,\ 1]
-\]
+**Vocabulary size** = 8
 
 ---
 
-## Final BoW representation (lecture format)
+## Step 3: Document–Term Matrix (word counts)
 
-```
-Vocabulary: [the, cat, sat, on, hat, dog, ate, and]
-S1: [ 2, 1, 1, 1, 1, 0, 0, 0 ]
-S2: [ 3, 1, 0, 0, 1, 1, 1, 1 ]
-```
+| Document | the | cat | sat | on | hat | dog | ate | and |
+|----------|-----|-----|-----|----|-----|-----|-----|-----|
+| **S1** | 2 | 1 | 1 | 1 | 1 | 0 | 0 | 0 |
+| **S2** | 3 | 1 | 0 | 0 | 1 | 1 | 1 | 1 |
 
 ---
 
-## Notes (from lecture)
+## Final BoW vectors
 
-- Grammar and word order are ignored; only frequencies matter.
-- Same length vectors → sentences become comparable in vector space.
-- Limitation: no word order / semantics (e.g. different sentences can look similar).
+| Document | Vector |
+|----------|--------|
+| S1 | [2, 1, 1, 1, 1, 0, 0, 0] |
+| S2 | [3, 1, 0, 0, 1, 1, 1, 1] |
+
+---
+
+
+# Bag of N-grams – Exercise (Bi-gram model)
+
+## Question
+
+| Doc | Text |
+|-----|------|
+| D1 | Dog bites man. |
+| D2 | Man bites dog. |
+| D3 | Dog eats meat. |
+| D4 | Man eats food. |
+
+**Task:** Create a Bag of N-grams considering a **bi-gram** model.
+
+---
+
+## Lecture idea
+
+- An **n-gram** is a sequence of *n* consecutive words.
+- For **n = 2** (bi-gram), represent each document by **counts of word pairs**.
+- BoW is BoN with **n = 1**.
+
+---
+
+## Step 1: Tokenization (lowercase, remove punctuation)
+
+| Doc | Tokens |
+|-----|--------|
+| D1 | dog, bites, man |
+| D2 | man, bites, dog |
+| D3 | dog, eats, meat |
+| D4 | man, eats, food |
+
+---
+
+## Step 2: Extract bi-grams from each document
+
+| Doc | Bi-grams |
+|-----|----------|
+| D1 | dog bites, bites man |
+| D2 | man bites, bites dog |
+| D3 | dog eats, eats meat |
+| D4 | man eats, eats food |
+
+---
+
+## Step 3: Vocabulary of unique bi-grams
+
+Unique bi-grams in order of first appearance:
+
+| Index | Bi-gram |
+|-------|---------|
+| 0 | dog bites |
+| 1 | bites man |
+| 2 | man bites |
+| 3 | bites dog |
+| 4 | dog eats |
+| 5 | eats meat |
+| 6 | man eats |
+| 7 | eats food |
+
+**Vocabulary size** = 8
+
+---
+
+## Step 4: Document–Term Matrix (bi-gram counts)
+
+| Document | dog bites | bites man | man bites | bites dog | dog eats | eats meat | man eats | eats food |
+|----------|-----------|-----------|-----------|-----------|----------|-----------|----------|-----------|
+| **D1** | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| **D2** | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 0 |
+| **D3** | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 |
+| **D4** | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 |
+
+---
+
+## Step 5: Final BoN vectors (n = 2)
+
+| Document | Vector |
+|----------|--------|
+| D1 | [1, 1, 0, 0, 0, 0, 0, 0] |
+| D2 | [0, 0, 1, 1, 0, 0, 0, 0] |
+| D3 | [0, 0, 0, 0, 1, 1, 0, 0] |
+| D4 | [0, 0, 0, 0, 0, 0, 1, 1] |
+
+---
+
+## Observation
+
+| Pair | Why BoN helps |
+|------|----------------|
+| D1 vs D2 | Same words (`dog`, `bites`, `man`) but **different order** → different bi-grams (`dog bites` ≠ `man bites`) |
+| BoW (n=1) | Would treat D1 and D2 as more similar; bi-grams keep local word-order |
 
 ---
 
