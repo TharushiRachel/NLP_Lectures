@@ -19,4 +19,5 @@ This folder contains all quiz questions and answers from the NLP assessment sess
 | `08_Morphology_Stems_and_Morphemes.md` | Stems, derivational & inflectional morphemes |
 | `09_Exercise_3_1_Preprocessing.md` | Exercise 3.1 – per-sentence preprocessing |
 | `10_Bag_of_Words_Exercise.md` | Bag of Words exercise (S1/S2 vectors) |
+| `11_Bag_of_Ngrams_Bigram_Exercise.md` | Bag of N-grams bi-gram exercise (D1–D4) |
 | `ALL_ANSWERS.md` | Combined document (everything in one file) |
